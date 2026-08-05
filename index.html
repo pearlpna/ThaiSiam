@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đánh giá trải nghiệm - THAI SIAM KITCHEN</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            padding: 30px 20px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #f1c40f;
+            margin-bottom: 15px;
+        }
+        h2 {
+            color: #111;
+            font-size: 20px;
+            margin: 0 0 15px 0;
+        }
+        .divider {
+            width: 50px;
+            height: 3px;
+            background: #f1c40f;
+            margin: 0 auto 20px auto;
+            border-radius: 2px;
+        }
+        p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .btn-fb {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1877f2;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(24,119,242,0.3);
+            transition: opacity 0.2s;
+        }
+        .btn-fb:hover { opacity: 0.9; }
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .star {
+            font-size: 38px;
+            color: #e4e4e7;
+            transition: color 0.2s;
+        }
+        .star.selected {
+            color: #facc15;
+        }
+        .result-box {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 16px;
+            animation: fadeIn 0.4s ease;
+        }
+        .good-box {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+        .bad-box {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            text-align: left;
+        }
+        .btn-action {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 14px;
+        }
+        .btn-maps { background-color: #2563eb; }
+        .btn-form { background-color: #dc2626; }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #fecaca;
+            box-sizing: border-box;
+            margin-top: 6px;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+        }
+        textarea.input-field {
+            height: 65px;
+            resize: none;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .footer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Logo quán Thai Siam -->
+        <img src="logo.jpg" alt="Logo Thai Siam" class="avatar" onerror="this.src='https://github.com/pearlpna/ThaiSiam/blob/main/logo.jpg?raw=true'">
+        
+        <h2>THAI SIAM KITCHEN</h2>
+        <div class="divider"></div>
+        
+        <p>
+            Anh/Chị có hài lòng dịch vụ và có góp ý gì khi trải nghiệm tại quán không?<br>
+            <span style="font-size: 12px; color: #777;">Are you satisfied with our service? Please share your feedback.</span>
+        </p>
+
+        <!-- Nút Fanpage Facebook -->
+        <a href="https://www.facebook.com/thaisiamkitchen" target="_blank" class="btn-fb">
+            🌐 Fanpage Facebook
+        </a>
+
+        <!-- Khu vực chọn sao -->
+        <div class="stars" id="starContainer">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+        </div>
+        <div style="font-size: 13px; color: #666; margin-bottom: 10px;" id="ratingText">Chạm vào số sao để đánh giá ⭐</div>
+
+        <!-- Hộp thông báo khi khách đánh giá TỐT (4-5 sao) -->
+        <div class="result-box good-box" id="goodBox" style="text-align: center;">
+            <strong>Cảm ơn Anh/Chị rất nhiều! ❤️</strong>
+            <p style="margin: 8px 0 0 0; font-size: 13px;">Anh/chị vui lòng nhấn 5⭐ trên Google Maps để ủng hộ quán nhé!</p>
+            <a href="https://www.google.com/maps/place/Thai+Siam+Kitchen+-+Barett+Urban+Zone+%C4%90%C3%A0+N%E1%BA%B5ng/@16.0512315,108.2447099,696m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3142178f58d06ba5:0xf46a0e548ccc0708!8m2!3d16.0512264!4d108.2472902!16s%2Fg%2F11nqd6073h!5m1!1e1?entry=ttu&g_ep=EgoyMDI2MDgwMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn-action btn-maps">⭐ Đánh giá ngay trên Google Maps</a>
+        </div>
+
+        <!-- Hộp thông báo khi khách đánh giá CHƯA TỐT (1-3 sao) -->
+        <div class="result-box bad-box" id="badBox">
+            <div style="text-align: center; font-weight: bold; font-size: 14px; color: #b91c1c;">
+                THAI SIAM KITCHEN<br>
+                sincerely apologizes 😔<br>
+                진심으로 사과드립니다 😔<br>
+                xin lỗi Anh/Chị 😔
+            </div>
+            <div style="text-align: center; font-size: 11px; color: #666; font-style: italic; margin: 4px 0 8px 0;">
+                Please let us know how we can improve.<br>
+                개선할 수 있도록 알려주세요.
+            </div>
+
+            <!-- Form kết nối với Google Apps Script -->
+            <form id="feedbackForm" onsubmit="sendFeedback(event)">
+                
+                <!-- Họ tên -->
+                <div style="margin-top: 10px; text-align: left; font-size: 12px; font-weight: bold; color: #b91c1c;">
+                    👤 Họ và tên / Full Name <span style="font-weight: normal; font-size: 10px; color: #666;">(Tùy chọn)</span>:
+                </div>
+                <input type="text" name="Họ tên khách" class="input-field" placeholder="Nhập họ và tên / Enter your name...">
+
+                <!-- Số điện thoại -->
+                <div style="margin-top: 8px; text-align: left; font-size: 12px; font-weight: bold; color: #b91c1c;">
+                    📞 Số điện thoại / Phone Number:
+                </div>
+                <input type="tel" name="Số điện thoại" class="input-field" placeholder="Nhập số điện thoại / Enter your phone...">
+
+                <!-- Email -->
+                <div style="margin-top: 8px; text-align: left; font-size: 12px; font-weight: bold; color: #b91c1c;">
+                    📧 Email liên hệ / Email:
+                </div>
+                <input type="email" name="Email" class="input-field" placeholder="Nhập email / Enter your email...">
+
+                <!-- Nội dung góp ý -->
+                <div style="margin-top: 8px; text-align: left; font-size: 12px; font-weight: bold; color: #b91c1c;">
+                    💬 Ý kiến đóng góp / Feedback:
+                </div>
+                <textarea name="Nội dung góp ý" class="input-field" placeholder="Ví dụ: Món ăn chưa ngon, nhân viên phục vụ chậm...&#10;Example: Food was not good, slow service..."></textarea>
+
+                <button type="submit" id="submitBtn" class="btn-action btn-form">📝 Gửi góp ý / Submit Feedback</button>
+            </form>
+        </div>
+
+        <div class="footer">&copy; 2026 THAI SIAM KITCHEN</div>
+    </div>
+
+    <script>
+        // Đường link Apps Script của Thai Siam mà bạn vừa gửi
+        const scriptURL = "https://script.google.com/macros/s/AKfycbwAY3B_VJ-bJG_oJWiPT4gc6tMU6zRkbzUE-lN8YM7nJj6awVvIhR6rVhDzbs4uQXf4/exec";
+        const form = document.getElementById('feedbackForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function sendFeedback(e) {
+            e.preventDefault();
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Đang gửi... / Sending...";
+
+            let formData = new FormData(form);
+
+            fetch(scriptURL, { method: 'POST', body: formData, mode: 'no-cors' })
+                .then(() => {
+                    alert('Cảm ơn Anh/Chị đã gửi góp ý! ❤️');
+                    location.reload();
+                })
+                .catch(error => {
+                    alert('Có lỗi xảy ra, vui lòng thử lại!');
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "📝 Gửi góp ý / Submit Feedback";
+                });
+        }
+
+        const stars = document.querySelectorAll('.star');
+        const goodBox = document.getElementById('goodBox');
+        const badBox = document.getElementById('badBox');
+        const ratingText = document.getElementById('ratingText');
+
+        stars.forEach((star, index) => {
+            star.addEventListener('click', () => {
+                const rating = index + 1;
+                
+                stars.forEach((s, i) => {
+                    if (i < rating) {
+                        s.classList.add('selected');
+                    } else {
+                        s.classList.remove('selected');
+                    }
+                });
+
+                ratingText.style.display = 'none';
+
+                if (rating >= 4) {
+                    goodBox.style.display = 'block';
+                    badBox.style.display = 'none';
+                } else {
+                    badBox.style.display = 'block';
+                    goodBox.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
